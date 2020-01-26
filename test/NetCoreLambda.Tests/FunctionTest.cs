@@ -1,6 +1,8 @@
 using Xunit;
 using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.APIGatewayEvents;
+using Amazon.XRay.Recorder.Core;
+using NSubstitute;
 
 namespace NetCoreLambda.Tests
 {
@@ -17,7 +19,12 @@ namespace NetCoreLambda.Tests
             APIGatewayProxyRequest request;
             APIGatewayProxyResponse response;
 
-            Functions functions = new Functions();
+            var xraySub = Substitute.For<IAWSXRayRecorder>();
+
+            xraySub.BeginSubsegment(Arg.Any<string>());
+            xraySub.EndSubsegment();
+
+            Functions functions = new Functions(xraySub);
 
 
             request = new APIGatewayProxyRequest();
