@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Sample SAM Template for NetCoreLambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+    Function:
+        Timeout: 10
+        Tracing: true
+
+Resources:
+    NetCoreLambdaFunction:
+        Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+        Properties:
+            FunctionName: NetCoreLambda
+            CodeUri: src/NetCoreLambda/bin/Release/netcoreapp2.1/publish
+            Handler: NetCoreLambda::NetCoreLambda.Functions::Get
+            Runtime: dotnetcore2.1
+            Events:
+                NetCoreLambda:
+                    Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+                    Properties:
+                        Path: /
+                        Method: get
+
+Outputs:
+    NetCoreLambdaApi:
+      Description: "API Gateway endpoint URL for Prod stage for NetCoreLambda function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/NetCoreLambda/"
+
+    NetCoreLambdaFunction:
+      Description: "NetCoreLambda Lambda Function ARN"
+      Value: !GetAtt NetCoreLambdaFunction.Arn
+
+    NetCoreLambdaFunctionIamRole:
+      Description: "Implicit IAM Role created for NetCoreLambda function"
+      Value: !GetAtt NetCoreLambdaFunctionRole.Arn
