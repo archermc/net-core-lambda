@@ -6,7 +6,7 @@ Description: Sample SAM Template for NetCoreLambda
 Globals:
     Function:
         Timeout: 10
-        Tracing: true
+        Tracing: Active
 
 Resources:
     NetCoreLambdaFunction:
