@@ -22,11 +22,7 @@ namespace NetCoreLambda
         /// </summary>
         public Functions(IAWSXRayRecorder xray = null)
         {
-            if (xray == null) {
-                this.xray = AWSXRayRecorder.Instance;
-            } else {
-                this.xray = xray;
-            }
+            this.xray = xray ?? AWSXRayRecorder.Instance;
         }
 
         /// <summary>
