@@ -26,11 +26,12 @@ namespace NetCoreLambda.Tests
 
             Functions functions = new Functions(xraySub);
 
-
             request = new APIGatewayProxyRequest();
             context = new TestLambdaContext();
             response = functions.Get(request, context);
             Assert.Equal(200, response.StatusCode);
+            xraySub.Received().BeginSubsegment("GetTime");
+            xraySub.Received().EndSubsegment();
         }
     }
 }
